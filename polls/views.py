@@ -11,8 +11,9 @@ def index(request):
 
 
 def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+    question = get_object_or_404(Question, pk=question_id)    
     return render(request, "polls/detail.html", {"question": question})
+    
 
 
 def results(request, question_id):
@@ -22,7 +23,6 @@ def results(request, question_id):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
@@ -42,3 +42,19 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+def choice(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'GET':        
+        return render(request, "polls/addchoice.html", {"question": question})
+    elif request.method=='POST':  
+        user_submited_choice = request.POST["choice"]
+        if user_submited_choice:
+            new_choice = Choice(
+                question=question, choice_text = user_submited_choice,
+                )
+            new_choice.save()    
+    return render(request, "polls/detail.html", {"question": question}) 
+
+    
+    

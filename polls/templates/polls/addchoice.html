@@ -1,0 +1,14 @@
+<!-- <form action="" method="post">
+    {% csrf_token %}
+<input type="text" class="addchoice">
+<label for="addchoice"> confused </label>
+<button type="submint">add choice</a></button>
+</form> -->
+<form action="{% url 'polls:choice' question.id %}" method="post">
+    {% csrf_token %}
+    <h1>{{ question.question_text }}</h1>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}  
+    <label for="choice">you are voting on queston {{ question }}</label>
+    <input type="text" name="choice">
+    <input type="submit" value="add" id="choice">
+</form>
