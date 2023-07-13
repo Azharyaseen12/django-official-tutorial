@@ -3,6 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from . models import Question, Choice
 from django.http import Http404
 from django.urls import reverse
+from django.utils import timezone
 
 def index(request):
     latest_question_list = Question.objects.order_by("-pub_date")[:5]
@@ -38,9 +39,6 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
 def choice(request, question_id):
@@ -56,5 +54,22 @@ def choice(request, question_id):
             new_choice.save()    
     return render(request, "polls/detail.html", {"question": question}) 
 
-    
-    
+def reset_vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    for choice in question.choice_set.all():
+        choice.votes = 0
+        choice.save()
+    return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+def add_question(request):
+    if request.method == 'GET':
+        return render(request, "polls/new_question.html")
+    elif request.method == 'POST':
+        user_submited_question = request.POST["question"]
+        if not user_submited_question:
+            return render(request, "polls/new_question.html",{
+                "error_message":"please enter a valid question"
+            })
+        new_question = Question(question_text=user_submited_question, pub_date = timezone.now(),)
+        new_question.save()  
+        return HttpResponseRedirect(reverse("polls:index"))   
