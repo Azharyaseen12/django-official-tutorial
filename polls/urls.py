@@ -18,4 +18,8 @@ urlpatterns = [
 
     path("add_question/", views.add_question, name="add_question"),
 
+    path('update/<int:id>', views.update, name='update'),
+
+    path('delete/<int:id>', views.delete, name='delete'),
+
 ]
