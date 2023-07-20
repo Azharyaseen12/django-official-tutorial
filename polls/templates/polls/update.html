@@ -1,9 +1,13 @@
-<h1>Update quetion</h1>
+{% extends 'base.html' %}
+{% block title %} update question  page {% endblock title %}
+{% block body %}
+    <h1>Update quetion</h1>
 
-<form action="{% url 'polls:update' question.id %}" method="post">
-{% csrf_token %}
-<br>
-<input name="queston">
-<br><br>
-<input type="submit" value="Submit">
-</form>
+    <form action="{% url 'polls:update' question.id %}" method="post">
+    {% csrf_token %}
+    <br>
+    <input name="queston">
+    <br><br>
+    <input type="submit" value="Submit">
+    </form>
+{% endblock %}    

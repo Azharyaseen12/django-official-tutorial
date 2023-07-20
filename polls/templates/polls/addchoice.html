@@ -1,9 +1,6 @@
-<!-- <form action="" method="post">
-    {% csrf_token %}
-<input type="text" class="addchoice">
-<label for="addchoice"> confused </label>
-<button type="submint">add choice</a></button>
-</form> -->
+{% extends 'base.html' %}
+{% block title %} Add choice page {% endblock title %}
+{% block body %}
 <form action="{% url 'polls:choice' question.id %}" method="post">
     {% csrf_token %}
     <h1>{{ question.question_text }}</h1>
@@ -12,3 +9,4 @@
     <input type="text" name="choice">
     <input type="submit" value="add" id="choice">
 </form>
+{% endblock body %}

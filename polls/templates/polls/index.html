@@ -1,61 +1,25 @@
+{% extends 'base.html' %}
 {% load static %}
-<!doctype html>
-<html lang="en">
+<title>{% block title %} Questions {% endblock title %}</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Questions</title>
-
+{% block head_extra %}
     <link rel="stylesheet" href="{% static 'polls/style.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-</head>
-
+{% endblock %}
 <body>
-    <!-- {% if latest_question_list %}
-    {% for question in latest_question_list %}
-    <div class="card row" style="width: 18rem;">
-        <img class="card-img-top" src="data:image/jpeg;base64,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" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      {% endfor %}
-      {% endif %}
- -->
-    {% if latest_question_list %}
-    <ul>
-        {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-        {% endfor %}
-    </ul>
+    {% block body %}
+        {% include 'polls/includes/header.html' %}
+        {% if latest_question_list %}
+        <ul>
+            {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            {% endfor %}
+        </ul>
 
-    {% else %}
-    <p>No polls are available.</p>
-    {% endif %}
-    <a href="{% url 'polls:add_question' %}">add question</a>
+        {% else %}
+        <p>No polls are available.</p>
+        {% endif %}
+        <a href="{% url 'polls:add_question' %}">add question</a>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+    {% endblock body %}
 </body>
-
 </html>
-
-
-
-
-<!-- {% if latest_question_list %}
-    <ul>
-        {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-        {% endfor %}
-    </ul>
-
-    {% else %}
-    <p>No polls are available.</p>
-    {% endif %}
-    <a href="{% url 'polls:add_question' %}">add question</a> -->

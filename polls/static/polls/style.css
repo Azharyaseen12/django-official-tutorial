@@ -1,7 +1,6 @@
-/* li a {
-    color: green;
-} */
-/* body {
-    background: rgb(248, 247, 247) url("images/image.jpg") no-repeat;
-    background-size: cover;
-} */
+.anchor {
+    color: black;
+}
+body {
+    background: white url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBIy4nua2A6YJPNFdcLDXpuR7bU4NYH53sw&usqp=CAU") no-repeat;
+}
